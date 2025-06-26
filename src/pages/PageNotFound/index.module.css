@@ -1,0 +1,21 @@
+.main {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  font-size: var(--text-2xl);
+  text-align: center;
+
+  padding: var(--padding-base);
+}
+
+.header {
+  padding-bottom: var(--padding-5xl);
+  font-size: var(--text-5xl);
+}
+
+.text {
+  padding-bottom: var(--padding-2xl);
+}

@@ -53,6 +53,10 @@ So, now to the topics:
   - Simplify the interface model to only two, them being significantly close in how they are used. Delimitate minimum and maximum size for interface elements
 - Make it work
   - Even if the general concept of the application is questionable (like having a messaging app with a REST API), make it so the difference to the "real thing" is not that far given the constraints. Pay attention to not try to mimic a functionality of a better tool with the one that you're using it, but how does my current structure can (kinda) work by using its own strengths
+- Deal with expected errors and some of the unexpected
+  - When the user is inputting data all will have to conform to the limits of the app. Things such as this are the expected errors.
+    Unexpected errors is considerably more wide in scope, so the focus here will be on responding to bad API calls.
+    The idea is not so much as to make a perfect program that reacts to all, but to deal with the more realistic situations that an user might find themselves in
 
 ## Features to implement
 
