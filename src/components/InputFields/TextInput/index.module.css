@@ -1,0 +1,35 @@
+.div {
+  display: flex;
+  flex-direction: column;
+}
+
+.label {
+  font-size: var(--text-2xl);
+}
+
+.input {
+  border: 1px solid var(--faded);
+  border-radius: var(--border-radius-sm);
+
+  padding: 0 var(--padding-xs);
+
+  font-size: var(--text-xl);
+  color: var(--faded);
+}
+
+.input:active {
+  border-color: var(--color);
+}
+
+.error {
+  width: fit-content;
+  background-color: var(--error);
+
+  font-size: var(--text-base);
+
+  margin: var(--padding-xs) var(--padding-xs);
+  padding: 0 var(--padding-xs);
+  border-radius: var(--border-radius-sm);
+
+  overflow: hidden;
+}
