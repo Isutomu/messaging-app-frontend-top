@@ -18,7 +18,6 @@ export const Button = ({ onClick, name, children, type }) => {
     >
       {children}
       {!!name && <span className={styles.span}>{name}</span>}
-      <button type=""></button>
     </button>
   );
 };
