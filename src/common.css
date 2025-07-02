@@ -39,6 +39,7 @@
   --border-radius-base: 0.6rem;
   --transition-time-fast: 0.15s;
   --transition-time-normal: 0.25s;
+  --transition-time-slow: 0.8s;
 }
 
 #root {

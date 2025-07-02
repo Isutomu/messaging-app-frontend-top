@@ -1,0 +1,28 @@
+.error {
+  position: fixed;
+  left: 50%;
+
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+
+  padding: 0 var(--padding-sm);
+  border-radius: var(--border-radius-sm);
+
+  background-color: var(--error);
+  font-size: var(--text-lg);
+  color: var(--color);
+
+  animation: appearing var(--transition-time-slow) ease-in-out forwards;
+}
+
+@keyframes appearing {
+  from {
+    top: 0px;
+    transform: translateX(-50%) translateY(-110%);
+  }
+  to {
+    top: var(--spacing-base);
+    transform: translateX(-50%) translateY(0%);
+  }
+}
