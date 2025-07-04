@@ -1,0 +1,46 @@
+.main {
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  padding: var(--padding-xs) var(--padding-base);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.header {
+  font-size: var(--text-5xl);
+  padding-bottom: var(--padding-lg);
+}
+
+.linkDiv {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  gap: var(--padding-2xl);
+
+  padding-bottom: var(--padding-lg);
+}
+
+.link {
+  align-self: flex-start;
+
+  font-size: var(--text-base);
+  text-decoration: underline;
+  color: var(--faded);
+
+  transition: color var(--transition-time-fast) ease;
+}
+
+.link:hover {
+  color: var(--color);
+}

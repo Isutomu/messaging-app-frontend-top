@@ -6,6 +6,7 @@ import { Login } from "../pages/Login";
 import { App } from "./App";
 import { PageNotFound } from "../pages/PageNotFound";
 import { Homepage } from "../pages/Homepage";
+import { Signup } from "../pages/Signup";
 
 export const routes = new createBrowserRouter([
   {
@@ -14,6 +15,7 @@ export const routes = new createBrowserRouter([
     errorElement: <PageNotFound />,
     children: [
       { path: "/login", element: <Login /> },
+      { path: "/signup", element: <Signup /> },
       { path: "/home", element: <Homepage /> },
     ],
   },

@@ -20,13 +20,17 @@ const RedirectLink = ({ name, url }) => {
 };
 
 // Exportable Component
-export const Login = () => {
+export const Signup = () => {
   const notificationContext = useContext(NotificationContext);
   const userStatusContext = useContext(UserStatusContext);
+  const [email, setEmail] = useState("");
+  const [errorEmail, setErrorEmail] = useState(" ");
   const [username, setUsername] = useState("");
   const [errorUsername, setErrorUsername] = useState(" ");
   const [password, setPassword] = useState("");
   const [errorPassword, setErrorPassword] = useState(" ");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [errorConfirmPassword, setErrorConfirmPassword] = useState(" ");
   const [showError, setShowError] = useState(false);
   const navigate = useNavigate();
 
@@ -37,37 +41,49 @@ export const Login = () => {
     if (!showError) {
       setShowError(true);
     }
-    if (errorUsername || errorPassword) {
-      notificationContext.setError(
-        errorUsername && errorPassword
-          ? "Invalid username and password"
-          : errorUsername
-            ? "Invalid username"
-            : "Invalid password",
-      );
+    if (errorEmail || errorUsername || errorPassword || errorConfirmPassword) {
+      notificationContext.setError("Invalid form input(s)");
       return;
     }
 
     notificationContext.setLoading(true);
     // Try to login
-    fetchRequest(import.meta.env.VITE_API_URL + "/login", {
+    fetchRequest(import.meta.env.VITE_API_URL + "/signup", {
       method: "POST",
-      body: { username, password },
+      body: { email, username, password },
     }).then((data) => {
       notificationContext.setLoading(false);
       if (data.status === "error") {
         notificationContext.setError(data.message);
       } else {
         userStatusContext.setIsUserLogged(true);
-        navigate("/home");
+        navigate("/login");
       }
     });
   };
 
   return (
     <main className={styles.main} onSubmit={handleSubmit}>
-      <h1 className={styles.header}>Login</h1>
+      <h1 className={styles.header}>Signup</h1>
       <form className={styles.form} onSubmit={handleSubmit}>
+        <TextInput
+          label="email"
+          value={email}
+          setValue={setEmail}
+          minLength={5}
+          maxLength={45}
+          regex={
+            new RegExp(
+              /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/,
+            )
+          }
+          regexError="Must be a valid email"
+          error={errorEmail}
+          setError={setErrorEmail}
+          placeholder="email"
+          showError={showError}
+          size="clamp(15rem, 40vw, 30rem)"
+        />
         <TextInput
           label="username"
           value={username}
@@ -85,7 +101,14 @@ export const Login = () => {
         <TextInput
           label="password"
           value={password}
-          setValue={setPassword}
+          setValue={(value) => {
+            setPassword(value);
+            if (value !== confirmPassword) {
+              setErrorConfirmPassword("Values don't match");
+            } else {
+              setErrorConfirmPassword("");
+            }
+          }}
           minLength={6}
           maxLength={20}
           error={errorPassword}
@@ -94,11 +117,21 @@ export const Login = () => {
           showError={showError}
           size="clamp(15rem, 40vw, 30rem)"
         />
+        <TextInput
+          label="confirmPassword"
+          value={confirmPassword}
+          setValue={setConfirmPassword}
+          error={errorConfirmPassword}
+          setError={setErrorConfirmPassword}
+          placeholder="confirm password"
+          showError={showError}
+          size="clamp(15rem, 40vw, 30rem)"
+          equals={password}
+        />
         <div className={styles.linkDiv}>
-          <RedirectLink name="forgot password" url="/forgot-password" />
-          <RedirectLink name="sign up" url="/signup" />
+          <RedirectLink name="Go back to login" url="/login" />
         </div>
-        <Button name="login" type="submit" />
+        <Button name="signup" type="submit" />
       </form>
     </main>
   );

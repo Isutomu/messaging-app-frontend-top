@@ -19,6 +19,7 @@ export const TextInput = ({
   error,
   setError,
   size = "50vw",
+  equals = undefined,
   showError = true,
 }) => {
   // Input Validation
@@ -31,6 +32,8 @@ export const TextInput = ({
       setError(`Maximum ${maxLength} characters`);
     } else if (!new RegExp(regex).test(inputValue)) {
       setError(regexError);
+    } else if (equals && equals !== inputValue) {
+      setError("Values don't match");
     } else {
       setError(null);
     }
@@ -83,4 +86,5 @@ TextInput.propTypes = {
   error: PropTypes.array.isRequired,
   setError: PropTypes.func.isRequired,
   size: PropTypes.string,
+  equals: PropTypes.string,
 };
