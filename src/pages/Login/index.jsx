@@ -1,12 +1,14 @@
 // 3rd Party Modules
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useContext, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 
 // Local Modules
 import { TextInput } from "../../components/InputFields/TextInput";
 import styles from "./index.module.css";
 import { Button } from "../../components/Button";
+import { NotificationContext, UserStatusContext } from "../../routes/App";
+import { fetchRequest } from "../../lib/fetchRequest";
 
 // Local Component
 const RedirectLink = ({ name, url }) => {
@@ -19,11 +21,47 @@ const RedirectLink = ({ name, url }) => {
 
 // Exportable Component
 export const Login = () => {
+  const notificationContext = useContext(NotificationContext);
+  const userStatusContext = useContext(UserStatusContext);
   const [username, setUsername] = useState("");
+  const [errorUsername, setErrorUsername] = useState(" ");
   const [password, setPassword] = useState("");
+  const [errorPassword, setErrorPassword] = useState(" ");
+  const [showError, setShowError] = useState(false);
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Check for input errors
+    if (!showError) {
+      setShowError(true);
+    }
+    if (errorUsername || errorPassword) {
+      notificationContext.setError(
+        errorUsername && errorPassword
+          ? "Invalid username and password"
+          : errorUsername
+            ? "Invalid username"
+            : "Invalid password",
+      );
+      return;
+    }
+
+    notificationContext.setLoading(true);
+    // Try to login
+    fetchRequest(import.meta.env.VITE_API_URL + "/login", {
+      method: "POST",
+      body: { username, password },
+    }).then((data) => {
+      notificationContext.setLoading(false);
+      if (data.status === "error") {
+        notificationContext.setError(data.message);
+      } else {
+        userStatusContext.setIsUserLogged(true);
+        navigate("/home");
+      }
+    });
   };
 
   return (
@@ -36,6 +74,12 @@ export const Login = () => {
           setValue={setUsername}
           minLength={3}
           maxLength={20}
+          regex={new RegExp(/^[a-zA-Z0-9]*$/)}
+          regexError="Must be letters or numbers"
+          error={errorUsername}
+          setError={setErrorUsername}
+          placeholder="username"
+          showError={showError}
           size="clamp(15rem, 40vw, 30rem)"
         />
         <TextInput
@@ -44,6 +88,10 @@ export const Login = () => {
           setValue={setPassword}
           minLength={6}
           maxLength={20}
+          error={errorPassword}
+          setError={setErrorPassword}
+          placeholder="password"
+          showError={showError}
           size="clamp(15rem, 40vw, 30rem)"
         />
         <div className={styles.linkDiv}>

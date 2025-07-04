@@ -13,10 +13,29 @@ export const TextInput = ({
   value,
   setValue,
   minLength = 0,
-  maxLength = 99,
-  errors = [],
+  maxLength = 999,
+  regex = new RegExp(/^.*$/),
+  regexError = "",
+  error,
+  setError,
   size = "50vw",
+  showError = true,
 }) => {
+  // Input Validation
+  const validateValue = (inputValue) => {
+    if (!inputValue) {
+      setError("required");
+    } else if (inputValue.length < minLength) {
+      setError(`Minimum ${minLength} characters`);
+    } else if (inputValue.length > maxLength) {
+      setError(`Maximum ${maxLength} characters`);
+    } else if (!new RegExp(regex).test(inputValue)) {
+      setError(regexError);
+    } else {
+      setError(null);
+    }
+  };
+
   return (
     <div className={styles.div} style={{ width: size }}>
       <label className={styles.label} htmlFor={styles.textInput}>
@@ -28,13 +47,14 @@ export const TextInput = ({
         id={styles.textInput}
         name={styles.textInput}
         value={value}
-        onChange={(e) => setValue(e.target.value)}
-        minLength={minLength}
-        maxLength={maxLength}
+        onChange={(e) => {
+          validateValue(e.target.value);
+          setValue(e.target.value);
+        }}
         placeholder={placeholder}
       />
       <AnimatePresence>
-        {!!errors.length && (
+        {showError && error && (
           <motion.span
             key={styles.error}
             className={styles.error}
@@ -43,7 +63,7 @@ export const TextInput = ({
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.35 }}
           >
-            {errors[0]}
+            {error}
           </motion.span>
         )}
       </AnimatePresence>
@@ -58,6 +78,9 @@ TextInput.propTypes = {
   setValue: PropTypes.func.isRequired,
   minLength: PropTypes.number,
   maxLength: PropTypes.number,
-  errors: PropTypes.array,
+  regex: PropTypes.instanceOf(RegExp),
+  regexError: PropTypes.string,
+  error: PropTypes.array.isRequired,
+  setError: PropTypes.func.isRequired,
   size: PropTypes.string,
 };

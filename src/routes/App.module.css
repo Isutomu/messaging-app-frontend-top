@@ -13,12 +13,16 @@
   background-color: var(--error);
   font-size: var(--text-lg);
   color: var(--color);
+}
 
-  animation: appearing var(--transition-time-slow) ease-in-out forwards;
+.error {
+  animation: appearing var(--transition-time-normal) ease-in-out forwards;
 }
 
 .loading {
   background-color: var(--loading);
+  top: var(--spacing-base);
+  transform: translateX(-50%);
 }
 
 @keyframes appearing {

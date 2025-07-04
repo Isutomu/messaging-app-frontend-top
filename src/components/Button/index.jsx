@@ -12,7 +12,7 @@ export const Button = ({ onClick, name, children, type }) => {
 
   return (
     <button
-      className={`${styles.button} ${!!children && !name && styles.buttonPaddingSmall}`}
+      className={`${styles.button} ${!!children && !name ? styles.buttonPaddingSmall : ""}`}
       onClick={onClick}
       type={type}
     >
