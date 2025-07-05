@@ -95,7 +95,10 @@ export const Login = () => {
           size="clamp(15rem, 40vw, 30rem)"
         />
         <div className={styles.linkDiv}>
-          <RedirectLink name="forgot password" url="/forgot-password" />
+          <RedirectLink
+            name="forgot password"
+            url="/send-reset-password-link"
+          />
           <RedirectLink name="sign up" url="/signup" />
         </div>
         <Button name="login" type="submit" />
