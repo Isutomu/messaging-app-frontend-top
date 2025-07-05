@@ -7,6 +7,8 @@ import { App } from "./App";
 import { PageNotFound } from "../pages/PageNotFound";
 import { Homepage } from "../pages/Homepage";
 import { Signup } from "../pages/Signup";
+import { SendPasswordResetLink } from "../pages/SendPasswordResetLink";
+import { ResetPassword } from "../pages/ResetPassword";
 
 export const routes = new createBrowserRouter([
   {
@@ -16,6 +18,8 @@ export const routes = new createBrowserRouter([
     children: [
       { path: "/login", element: <Login /> },
       { path: "/signup", element: <Signup /> },
+      { path: "/send-reset-password-link", element: <SendPasswordResetLink /> },
+      { path: "/reset-password", element: <ResetPassword /> },
       { path: "/home", element: <Homepage /> },
     ],
   },
