@@ -14,7 +14,7 @@ export const useVerifySession = (setIsUserLogged) => {
   useEffect(() => {
     if (data) {
       setIsUserLogged(true);
-      navigate("/home");
+      navigate("/app");
     }
   }, [data, error, loading]);
 

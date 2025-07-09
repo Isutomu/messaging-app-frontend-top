@@ -16,8 +16,8 @@ export const Button = ({ onClick, name, children, type }) => {
       onClick={onClick}
       type={type}
     >
-      {children}
-      {!!name && <span className={styles.span}>{name}</span>}
+      <span className={styles.icon}>{children}</span>
+      {!!name && <span className={styles.name}>{name}</span>}
     </button>
   );
 };

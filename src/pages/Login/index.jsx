@@ -59,7 +59,7 @@ export const Login = () => {
         notificationContext.setError(data.message);
       } else {
         userStatusContext.setIsUserLogged(true);
-        navigate("/home");
+        navigate("/app");
       }
     });
   };

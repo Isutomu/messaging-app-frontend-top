@@ -1,3 +1,31 @@
+// 3rd Party Modules
+import { useLocation, useOutlet } from "react-router-dom";
+import { BiSolidMessageRoundedDetail } from "react-icons/bi";
+
+// Local Modules
+import { Menu } from "../../components/Menu";
+import { useFetchRequest } from "../../lib/hooks/useFetchRequest";
+import styles from "./index.module.css";
+
 export const Homepage = () => {
-  return <h1>Logged!</h1>;
+  const location = useLocation();
+  const outlet = useOutlet();
+  const { data, error, loading } = useFetchRequest(
+    import.meta.env.VITE_API_URL + "/friends",
+  );
+
+  return (
+    <main className={styles.main}>
+      <div className={styles.div}>
+        <Menu friends={data?.data.friends} />
+        {location.pathname === "/app" ? (
+          <div className={styles.iconDiv}>
+            <BiSolidMessageRoundedDetail size="10rem" />
+          </div>
+        ) : (
+          outlet
+        )}
+      </div>
+    </main>
+  );
 };

@@ -1,0 +1,45 @@
+.section {
+  border: 1px solid var(--color);
+  border-radius: var(--border-radius-sm);
+  padding: var(--padding-sm);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  font-size: var(--text-base);
+}
+
+.searchFriendsDiv {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-base);
+}
+
+.searchBar {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+.friendsDiv {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.friend {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+.settingsDiv {
+  display: flex;
+  flex-direction: column;
+  gap: var(--padding-sm);
+}
+
+.smallerButton {
+  width: 70%;
+  display: grid;
+  grid-template-columns: 1fr;
+}

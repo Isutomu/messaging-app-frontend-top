@@ -46,7 +46,7 @@
 #root {
   max-height: 100vh;
   min-width: max(20rem, 320px);
-  max-width: max(80rem, 1280px);
+  /* max-width: max(80rem, 1280px); */
 }
 
 body {

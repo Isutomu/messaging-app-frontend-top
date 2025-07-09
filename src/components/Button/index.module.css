@@ -21,3 +21,11 @@
   color: var(--background);
   background-color: var(--color);
 }
+
+.icon {
+  flex-shrink: 0;
+}
+
+.name {
+  flex-shrink: 0;
+}

@@ -20,7 +20,7 @@ export const routes = new createBrowserRouter([
       { path: "/signup", element: <Signup /> },
       { path: "/send-reset-password-link", element: <SendPasswordResetLink /> },
       { path: "/reset-password", element: <ResetPassword /> },
-      { path: "/home", element: <Homepage /> },
+      { path: "/app", element: <Homepage /> },
     ],
   },
 ]);
