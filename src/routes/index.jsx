@@ -9,6 +9,7 @@ import { Homepage } from "../pages/Homepage";
 import { Signup } from "../pages/Signup";
 import { SendPasswordResetLink } from "../pages/SendPasswordResetLink";
 import { ResetPassword } from "../pages/ResetPassword";
+import { Chat } from "../pages/Chat";
 
 export const routes = new createBrowserRouter([
   {
@@ -20,7 +21,16 @@ export const routes = new createBrowserRouter([
       { path: "/signup", element: <Signup /> },
       { path: "/send-reset-password-link", element: <SendPasswordResetLink /> },
       { path: "/reset-password", element: <ResetPassword /> },
-      { path: "/app", element: <Homepage /> },
+      {
+        path: "/app",
+        element: <Homepage />,
+        children: [
+          {
+            path: "/app/chat/:username",
+            element: <Chat />,
+          },
+        ],
+      },
     ],
   },
 ]);

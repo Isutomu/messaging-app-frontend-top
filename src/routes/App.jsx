@@ -1,7 +1,7 @@
 // 3rd Party Modules
 import { AnimatePresence } from "motion/react";
 import React, { createContext, useState } from "react";
-import { useLocation, useNavigate, useOutlet } from "react-router-dom";
+import { useLocation, useOutlet } from "react-router-dom";
 import { FiAlertOctagon } from "react-icons/fi";
 import { motion } from "motion/react";
 import loadingIcon from "../assets/loading.gif";

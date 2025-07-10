@@ -1,5 +1,5 @@
 // 3rd Party Modules
-import { useLocation, useOutlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import { BiSolidMessageRoundedDetail } from "react-icons/bi";
 
 // Local Modules
@@ -9,7 +9,6 @@ import styles from "./index.module.css";
 
 export const Homepage = () => {
   const location = useLocation();
-  const outlet = useOutlet();
   const { data, error, loading } = useFetchRequest(
     import.meta.env.VITE_API_URL + "/friends",
   );
@@ -23,7 +22,7 @@ export const Homepage = () => {
             <BiSolidMessageRoundedDetail size="10rem" />
           </div>
         ) : (
-          outlet
+          <Outlet />
         )}
       </div>
     </main>
