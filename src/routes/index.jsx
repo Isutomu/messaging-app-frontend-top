@@ -10,6 +10,7 @@ import { Signup } from "../pages/Signup";
 import { SendPasswordResetLink } from "../pages/SendPasswordResetLink";
 import { ResetPassword } from "../pages/ResetPassword";
 import { Chat } from "../pages/Chat";
+import { Settings } from "../pages/Settings";
 
 export const routes = new createBrowserRouter([
   {
@@ -28,6 +29,10 @@ export const routes = new createBrowserRouter([
           {
             path: "/app/chat/:username",
             element: <Chat />,
+          },
+          {
+            path: "/app/settings",
+            element: <Settings />,
           },
         ],
       },
