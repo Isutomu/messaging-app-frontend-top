@@ -46,6 +46,11 @@ export const Chat = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    if (inputMessage === "") {
+      notificationContext.setError("Can't send an empty message");
+      return;
+    }
+
     fetchRequest(import.meta.env.VITE_API_URL + `/messages/${friendUsername}`, {
       method: "POST",
       body: { message: inputMessage },
