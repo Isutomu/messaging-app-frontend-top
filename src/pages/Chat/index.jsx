@@ -8,6 +8,7 @@ import styles from "./index.module.css";
 import { useFetchRequest } from "../../lib/hooks/useFetchRequest";
 import { fetchRequest } from "../../lib/fetchRequest";
 import { NotificationContext } from "../../routes/App";
+import { Header } from "../../components/Header";
 
 const TriangleLeft = () => (
   <svg
@@ -73,15 +74,7 @@ export const Chat = () => {
 
   return (
     <section className={styles.mainSection}>
-      <header className={styles.header}>
-        <span>{friendUsername}</span>
-        <button
-          className={`${styles.button} ${styles.closeButton}`}
-          onClick={() => navigate("/app")}
-        >
-          X
-        </button>
-      </header>
+      <Header title={friendUsername} />
 
       <section className={styles.messagesSection}>
         {messages &&
@@ -110,10 +103,7 @@ export const Chat = () => {
           value={inputMessage}
           onChange={handleChange}
         />
-        <button
-          className={`${styles.button} ${styles.sendButton}`}
-          type="submit"
-        >
+        <button className={styles.button} type="submit">
           <IoSend size="1.3rem" />
         </button>
       </form>
