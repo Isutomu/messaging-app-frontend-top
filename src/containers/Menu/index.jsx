@@ -11,7 +11,7 @@ import { useNavigate } from "react-router-dom";
 
 // Local Modules
 import styles from "./index.module.css";
-import { Button } from "../Button";
+import { Button } from "../../components/Button";
 
 const Search = () => {
   const [searchTerm, setSearchTerm] = useState("");

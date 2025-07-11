@@ -3,7 +3,7 @@ import { Outlet, useLocation } from "react-router-dom";
 import { BiSolidMessageRoundedDetail } from "react-icons/bi";
 
 // Local Modules
-import { Menu } from "../../components/Menu";
+import { Menu } from "../../containers/Menu";
 import { useFetchRequest } from "../../lib/hooks/useFetchRequest";
 import styles from "./index.module.css";
 
