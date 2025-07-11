@@ -1,21 +1,14 @@
 // 3rd Party Modules
 import { useNavigate, useParams } from "react-router-dom";
 import { IoSend } from "react-icons/io5";
+import { useContext, useState } from "react";
 
 // Local Modules
 import styles from "./index.module.css";
+import { useFetchRequest } from "../../lib/hooks/useFetchRequest";
+import { fetchRequest } from "../../lib/fetchRequest";
+import { NotificationContext } from "../../routes/App";
 
-const mockMessages = [
-  {
-    username: "testFriendLogin2",
-    message:
-      "lollollollollollollol lollol lollollollol loldlo lollollollollollollol lollollollollollollol",
-    id: "1",
-  },
-  { username: "testFriendLogin2", message: "t1", id: "2" },
-  { username: "username", message: "test", id: "3" },
-  { username: "testFriendLogin2", message: "test test", id: "4" },
-];
 const TriangleLeft = () => (
   <svg
     className={styles.svgLeft}
@@ -38,18 +31,50 @@ const TriangleRight = () => (
 );
 
 export const Chat = () => {
-  const { username } = useParams();
+  const [inputMessage, setInputMessage] = useState("");
+  const [errorDisplayed, setErrorDisplayed] = useState(false);
   const navigate = useNavigate();
-  const messages = mockMessages;
+  const notificationContext = useContext(NotificationContext);
+  const params = useParams();
+  const friendUsername = params.username;
+  const { data, error, loading } = useFetchRequest(
+    import.meta.env.VITE_API_URL + `/messages/${friendUsername}`,
+  );
 
+  const messages = data?.data.messages;
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    fetchRequest(import.meta.env.VITE_API_URL + `/messages/${friendUsername}`, {
+      method: "POST",
+      body: { message: inputMessage },
+    }).then((data) => {
+      if (data.status === "error") {
+        notificationContext.setError(data.message);
+      } else {
+        setInputMessage("");
+        navigate(`/app`);
+      }
+    });
+  };
+  const handleChange = (e) => {
+    const value = e.target.value;
+    if (value.length > 130) {
+      setInputMessage(value.slice(0, 130));
+      if (!errorDisplayed) {
+        setErrorDisplayed(true);
+        notificationContext.setError("Message must be less than 130 chars");
+      }
+      return;
+    }
+
+    setInputMessage(value);
   };
 
   return (
     <section className={styles.mainSection}>
       <header className={styles.header}>
-        <span>{username}</span>
+        <span>{friendUsername}</span>
         <button
           className={`${styles.button} ${styles.closeButton}`}
           onClick={() => navigate("/app")}
@@ -61,7 +86,7 @@ export const Chat = () => {
       <section className={styles.messagesSection}>
         {messages &&
           messages.map((message) => {
-            const received = message.username === username;
+            const received = message.sender === friendUsername;
 
             return (
               <span
@@ -71,7 +96,7 @@ export const Chat = () => {
                 }`}
               >
                 {received ? <TriangleLeft /> : <TriangleRight />}
-                {message.message}
+                {message.content}
               </span>
             );
           })}
@@ -82,6 +107,8 @@ export const Chat = () => {
           className={styles.input}
           type="text"
           placeholder="Type your message"
+          value={inputMessage}
+          onChange={handleChange}
         />
         <button
           className={`${styles.button} ${styles.sendButton}`}
