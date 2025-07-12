@@ -13,25 +13,31 @@ import { Chat } from "../pages/Chat";
 import { Settings } from "../pages/Settings";
 import { Search } from "../pages/Search";
 
-export const routes = new createBrowserRouter([
-  {
-    path: "/",
-    element: <App />,
-    errorElement: <PageNotFound />,
-    children: [
-      { path: "/login", element: <Login /> },
-      { path: "/signup", element: <Signup /> },
-      { path: "/send-reset-password-link", element: <SendPasswordResetLink /> },
-      { path: "/reset-password", element: <ResetPassword /> },
-      {
-        path: "/app",
-        element: <Homepage />,
-        children: [
-          { path: "/app/chat/:username", element: <Chat /> },
-          { path: "/app/settings", element: <Settings /> },
-          { path: "/app/search", element: <Search /> },
-        ],
-      },
-    ],
-  },
-]);
+export const routes = new createBrowserRouter(
+  [
+    {
+      path: "/",
+      element: <App />,
+      errorElement: <PageNotFound />,
+      children: [
+        { path: "/login", element: <Login /> },
+        { path: "/signup", element: <Signup /> },
+        {
+          path: "/send-reset-password-link",
+          element: <SendPasswordResetLink />,
+        },
+        { path: "/reset-password", element: <ResetPassword /> },
+        {
+          path: "/app",
+          element: <Homepage />,
+          children: [
+            { path: "/app/chat/:username", element: <Chat /> },
+            { path: "/app/settings", element: <Settings /> },
+            { path: "/app/search", element: <Search /> },
+          ],
+        },
+      ],
+    },
+  ],
+  { basename: "/messaging-app-frontend-top/" },
+);
