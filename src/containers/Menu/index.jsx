@@ -6,26 +6,55 @@ import {
   IoMdPerson,
   IoMdSettings,
 } from "react-icons/io";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { HiMagnifyingGlass } from "react-icons/hi2";
 
 // Local Modules
 import styles from "./index.module.css";
 import { Button } from "../../components/Button";
+import { NotificationContext } from "../../routes/App";
 
 const Search = () => {
   const [searchTerm, setSearchTerm] = useState("");
+  const [errorDisplayed, setErrorDisplayed] = useState(false);
+  const notificationContext = useContext(NotificationContext);
   const navigate = useNavigate();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    navigate(`/app/search?username=${searchTerm}`);
+  };
+
+  const handleChange = (e) => {
+    const value = e.target.value;
+    if (value.length > 20) {
+      setSearchTerm(value.slice(0, 20));
+      if (!errorDisplayed) {
+        setErrorDisplayed(true);
+        notificationContext.setError("Search term must be less than 20 chars");
+      }
+      return;
+    }
+
+    setSearchTerm(value);
+  };
 
   return (
     <div className={styles.searchBar}>
       <h2>Search</h2>
-      <Button
-        name="search"
-        onClick={() => navigate(`/app/search?search_query=${searchTerm}`)}
-      >
-        <IoMdPerson />
-      </Button>
+      <form className={styles.form} onSubmit={handleSubmit}>
+        <input
+          className={styles.input}
+          type="text"
+          placeholder="Search for..."
+          value={searchTerm}
+          onChange={handleChange}
+        />
+        <button className={styles.button} type="submit">
+          <HiMagnifyingGlass size="1.3rem" />
+        </button>
+      </form>
     </div>
   );
 };
