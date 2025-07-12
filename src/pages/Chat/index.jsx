@@ -34,8 +34,8 @@ const TriangleRight = () => (
 export const Chat = () => {
   const [inputMessage, setInputMessage] = useState("");
   const [errorDisplayed, setErrorDisplayed] = useState(false);
-  const navigate = useNavigate();
   const notificationContext = useContext(NotificationContext);
+  const navigate = useNavigate();
   const params = useParams();
   const friendUsername = params.username;
   const { data, error, loading } = useFetchRequest(

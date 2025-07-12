@@ -12,9 +12,11 @@ export const useVerifySession = (setIsUserLogged) => {
   );
 
   useEffect(() => {
-    if (data) {
+    if (data?.status === "success") {
       setIsUserLogged(true);
       navigate("/app");
+    } else {
+      navigate("/login");
     }
   }, [data, error, loading]);
 
