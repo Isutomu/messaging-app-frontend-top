@@ -93,7 +93,7 @@ export const Settings = () => {
         </ChangeForm>
 
         <ChangeForm
-          title="Change Email"
+          title="Change Username"
           actionName="change"
           field="username"
           value={username}
