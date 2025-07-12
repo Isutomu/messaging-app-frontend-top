@@ -14,6 +14,7 @@ import { HiMagnifyingGlass } from "react-icons/hi2";
 import styles from "./index.module.css";
 import { Button } from "../../components/Button";
 import { NotificationContext } from "../../routes/App";
+import { fetchRequest } from "../../lib/fetchRequest";
 
 const Search = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -84,7 +85,20 @@ const Friends = ({ friends }) => {
 };
 
 const SettingsButtons = () => {
+  const notificationContext = useContext(NotificationContext);
   const navigate = useNavigate();
+
+  const handleLogout = () => {
+    fetchRequest(import.meta.env.VITE_API_URL + "/logout", {
+      method: "POST",
+    }).then((data) => {
+      if (data.status === "error") {
+        notificationContext.setError(data.message);
+      } else {
+        navigate("/login");
+      }
+    });
+  };
 
   return (
     <div className={styles.settingsDiv}>
@@ -97,7 +111,7 @@ const SettingsButtons = () => {
         </Button>
       </span>
       <span className={styles.smallerButton}>
-        <Button name="Logout" onClick={() => navigate("/app/logout")}>
+        <Button name="Logout" onClick={handleLogout}>
           <IoIosLogOut size="1.4rem" />
         </Button>
       </span>
