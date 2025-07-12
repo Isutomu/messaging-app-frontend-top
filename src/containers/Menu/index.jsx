@@ -23,7 +23,7 @@ const Search = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    navigate(`/app/search?username=${searchTerm}`);
+    navigate(`/app/search?search_term=${searchTerm}`);
   };
 
   const handleChange = (e) => {
