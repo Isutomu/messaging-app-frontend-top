@@ -52,9 +52,9 @@ const Search = () => {
           value={searchTerm}
           onChange={handleChange}
         />
-        <button className={styles.button} type="submit">
+        <Button type="submit" padding="0.125rem">
           <HiMagnifyingGlass size="1.3rem" />
-        </button>
+        </Button>
       </form>
     </div>
   );

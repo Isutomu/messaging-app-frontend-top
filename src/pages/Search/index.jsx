@@ -8,6 +8,7 @@ import { useFetchRequest } from "../../lib/hooks/useFetchRequest";
 import { Header } from "../../components/Header";
 import { IoPersonAddSharp } from "react-icons/io5";
 import { fetchRequest } from "../../lib/fetchRequest";
+import { Button } from "../../components/Button";
 
 export const Search = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -42,16 +43,16 @@ export const Search = () => {
           searchResults.map((user) => (
             <li key={user.username} className={styles.result}>
               <span>{user.username}</span>
-              <button
-                className={styles.button}
+              <Button
                 onClick={() => handleClick(user)}
+                padding="var(--padding-xs) var(--padding-lg)"
               >
                 {user.friend ? (
                   <BiSolidMessageRoundedDetail size="1.3rem" />
                 ) : (
                   <IoPersonAddSharp size="1.3rem" />
                 )}
-              </button>
+              </Button>
             </li>
           ))}
       </ul>

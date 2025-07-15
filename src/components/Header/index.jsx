@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 
 // Local Modules
 import styles from "./index.module.css";
+import { Button } from "../Button";
 
 export const Header = ({ title }) => {
   const navigate = useNavigate();
@@ -11,9 +12,11 @@ export const Header = ({ title }) => {
   return (
     <header className={styles.header}>
       <span>{title}</span>
-      <button className={styles.button} onClick={() => navigate("/app")}>
-        X
-      </button>
+      <Button
+        name="X"
+        padding="var(--padding-xs) var(--padding-lg)"
+        onClick={() => navigate("/app")}
+      />
     </header>
   );
 };

@@ -9,6 +9,7 @@ import { useFetchRequest } from "../../lib/hooks/useFetchRequest";
 import { fetchRequest } from "../../lib/fetchRequest";
 import { NotificationContext } from "../../routes/App";
 import { Header } from "../../components/Header";
+import { Button } from "../../components/Button";
 
 const TriangleLeft = () => (
   <svg
@@ -108,9 +109,12 @@ export const Chat = () => {
           value={inputMessage}
           onChange={handleChange}
         />
-        <button className={styles.button} type="submit">
+        <Button
+          type="submit"
+          padding="var(--padding-sm)  var(--padding-sm) var(--padding-sm) var(--padding-base)"
+        >
           <IoSend size="1.3rem" />
-        </button>
+        </Button>
       </form>
     </section>
   );

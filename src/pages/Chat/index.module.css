@@ -77,19 +77,3 @@
 
   padding: 0 var(--padding-sm);
 }
-
-.button {
-  padding: var(--padding-sm) var(--padding-sm);
-  padding-left: var(--padding-base);
-  border: 1px solid var(--color);
-  border-radius: var(--border-radius-sm);
-
-  transition-property: color, background-color;
-  transition-duration: var(--transition-time-fast);
-  transition-timing-function: ease-in;
-}
-
-.button:hover {
-  color: var(--background);
-  background-color: var(--color);
-}
