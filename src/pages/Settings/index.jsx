@@ -8,11 +8,11 @@ import styles from "./index.module.css";
 import { Header } from "../../components/Header";
 import { Button } from "../../components/Button";
 import { TextInput } from "../../components/InputFields/TextInput";
-import { NotificationContext } from "../../routes/App";
+import { ErrorContext } from "../../routes/App";
 import { fetchRequest } from "../../lib/fetchRequest";
 
 const ChangeForm = ({ title, actionName, children, field, value, error }) => {
-  const notificationContext = useContext(NotificationContext);
+  const errorContext = useContext(ErrorContext);
 
   const navigate = useNavigate();
 
@@ -20,7 +20,7 @@ const ChangeForm = ({ title, actionName, children, field, value, error }) => {
     e.preventDefault();
 
     if (!!error) {
-      notificationContext.setError("Invalid input(s)");
+      errorContext.setError("Invalid input(s)");
       return;
     }
 
@@ -32,7 +32,7 @@ const ChangeForm = ({ title, actionName, children, field, value, error }) => {
       body,
     }).then((data) => {
       if (data.status === "error") {
-        notificationContext.setError(data.message);
+        errorContext.setError(data.message);
       } else {
         navigate(`/app`);
       }

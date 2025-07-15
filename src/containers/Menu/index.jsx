@@ -13,13 +13,13 @@ import { HiMagnifyingGlass } from "react-icons/hi2";
 // Local Modules
 import styles from "./index.module.css";
 import { Button } from "../../components/Button";
-import { NotificationContext } from "../../routes/App";
+import { ErrorContext } from "../../routes/App";
 import { fetchRequest } from "../../lib/fetchRequest";
 
 const Search = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [errorDisplayed, setErrorDisplayed] = useState(false);
-  const notificationContext = useContext(NotificationContext);
+  const errorContext = useContext(ErrorContext);
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
@@ -33,7 +33,7 @@ const Search = () => {
       setSearchTerm(value.slice(0, 20));
       if (!errorDisplayed) {
         setErrorDisplayed(true);
-        notificationContext.setError("Search term must be less than 20 chars");
+        errorContext.setError("Search term must be less than 20 chars");
       }
       return;
     }
@@ -85,7 +85,7 @@ const Friends = ({ friends }) => {
 };
 
 const SettingsButtons = () => {
-  const notificationContext = useContext(NotificationContext);
+  const errorContext = useContext(ErrorContext);
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -93,7 +93,7 @@ const SettingsButtons = () => {
       method: "POST",
     }).then((data) => {
       if (data.status === "error") {
-        notificationContext.setError(data.message);
+        errorContext.setError(data.message);
       } else {
         navigate("/login");
       }

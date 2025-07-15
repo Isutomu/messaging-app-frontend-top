@@ -7,8 +7,9 @@ import PropTypes from "prop-types";
 import { TextInput } from "../../components/InputFields/TextInput";
 import styles from "./index.module.css";
 import { Button } from "../../components/Button";
-import { NotificationContext, UserStatusContext } from "../../routes/App";
+import { ErrorContext, UserContext } from "../../routes/App";
 import { fetchRequest } from "../../lib/fetchRequest";
+import { Loading } from "../../components/Loading";
 
 // Local Component
 const RedirectLink = ({ name, url }) => {
@@ -21,11 +22,12 @@ const RedirectLink = ({ name, url }) => {
 
 // Exportable Component
 export const SendPasswordResetLink = () => {
-  const notificationContext = useContext(NotificationContext);
-  const userStatusContext = useContext(UserStatusContext);
+  const errorContext = useContext(ErrorContext);
+  const userContext = useContext(UserContext);
   const [email, setEmail] = useState("");
   const [errorEmail, setErrorEmail] = useState(" ");
   const [showError, setShowError] = useState(false);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -36,21 +38,21 @@ export const SendPasswordResetLink = () => {
       setShowError(true);
     }
     if (errorEmail) {
-      notificationContext.setError("Invalid email");
+      errorContext.setError("Invalid email");
       return;
     }
 
-    notificationContext.setLoading(true);
+    setLoading(true);
     // Try to login
     fetchRequest(import.meta.env.VITE_API_URL + "/send-reset-password-link", {
       method: "POST",
       body: { email },
     }).then((data) => {
-      notificationContext.setLoading(false);
+      setLoading(false);
       if (data.status === "error") {
-        notificationContext.setError(data.message);
+        setError(data.message);
       } else {
-        userStatusContext.setIsUserLogged(true);
+        userContext.setIsLogged(true);
         navigate("/login");
       }
     });
@@ -58,6 +60,7 @@ export const SendPasswordResetLink = () => {
 
   return (
     <main className={styles.main} onSubmit={handleSubmit}>
+      <Loading loading={loading} />
       <h1 className={styles.header}>Reset Password</h1>
       <form className={styles.form} onSubmit={handleSubmit}>
         <TextInput

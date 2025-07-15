@@ -1,0 +1,36 @@
+.loadingContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+
+  z-index: 1;
+
+  backdrop-filter: blur(2px);
+}
+
+.loading {
+  position: fixed;
+  top: var(--spacing-base);
+  left: 50%;
+
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+
+  padding: 0 var(--padding-sm);
+  border-radius: var(--border-radius-sm);
+
+  background-color: var(--error);
+  background-color: var(--loading);
+
+  font-size: var(--text-lg);
+  color: var(--color);
+
+  transform: translateX(-50%);
+}
+
+.loadingIcon {
+  width: 1.3rem;
+}

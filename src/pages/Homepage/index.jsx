@@ -6,6 +6,7 @@ import { BiSolidMessageRoundedDetail } from "react-icons/bi";
 import { Menu } from "../../containers/Menu";
 import { useFetchRequest } from "../../lib/hooks/useFetchRequest";
 import styles from "./index.module.css";
+import { Loading } from "../../components/Loading";
 
 export const Homepage = () => {
   const location = useLocation();
@@ -15,6 +16,7 @@ export const Homepage = () => {
 
   return (
     <main className={styles.main}>
+      <Loading loading={loading} />
       <div className={styles.div}>
         <Menu friends={data?.data.friends} />
         {location.pathname === "/app" ? (

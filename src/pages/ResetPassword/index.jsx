@@ -7,8 +7,9 @@ import PropTypes from "prop-types";
 import { TextInput } from "../../components/InputFields/TextInput";
 import styles from "./index.module.css";
 import { Button } from "../../components/Button";
-import { NotificationContext, UserStatusContext } from "../../routes/App";
+import { ErrorContext, UserContext } from "../../routes/App";
 import { fetchRequest } from "../../lib/fetchRequest";
+import { Loading } from "../../components/Loading";
 
 // Local Component
 const RedirectLink = ({ name, url }) => {
@@ -21,8 +22,8 @@ const RedirectLink = ({ name, url }) => {
 
 // Exportable Component
 export const ResetPassword = () => {
-  const notificationContext = useContext(NotificationContext);
-  const userStatusContext = useContext(UserStatusContext);
+  const errorContext = useContext(ErrorContext);
+  const userContext = useContext(UserContext);
   const [password, setPassword] = useState("");
   const [errorPassword, setErrorPassword] = useState(" ");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -31,6 +32,7 @@ export const ResetPassword = () => {
   const navigate = useNavigate();
   const [searchparams, setSearchParams] = useSearchParams();
   const resetPasswordToken = searchparams.get("token");
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -40,11 +42,11 @@ export const ResetPassword = () => {
       setShowError(true);
     }
     if (errorPassword || errorConfirmPassword) {
-      notificationContext.setError("Invalid form input(s)");
+      errorContext.setError("Invalid form input(s)");
       return;
     }
 
-    notificationContext.setLoading(true);
+    setLoading(true);
     // Try to login
     fetchRequest(
       import.meta.env.VITE_API_URL +
@@ -54,11 +56,11 @@ export const ResetPassword = () => {
         body: { password },
       },
     ).then((data) => {
-      notificationContext.setLoading(false);
+      setLoading(false);
       if (data.status === "error") {
-        notificationContext.setError(data.message);
+        errorContext.setError(data.message);
       } else {
-        userStatusContext.setIsUserLogged(true);
+        userContext.setIsLogged(true);
         navigate("/login");
       }
     });
@@ -66,6 +68,7 @@ export const ResetPassword = () => {
 
   return (
     <main className={styles.main} onSubmit={handleSubmit}>
+      <Loading loading={loading} />
       <h1 className={styles.header}>Reset Password</h1>
       <form className={styles.form} onSubmit={handleSubmit}>
         <TextInput

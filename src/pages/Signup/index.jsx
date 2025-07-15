@@ -7,8 +7,9 @@ import PropTypes from "prop-types";
 import { TextInput } from "../../components/InputFields/TextInput";
 import styles from "./index.module.css";
 import { Button } from "../../components/Button";
-import { NotificationContext, UserStatusContext } from "../../routes/App";
+import { ErrorContext, UserContext } from "../../routes/App";
 import { fetchRequest } from "../../lib/fetchRequest";
+import { Loading } from "../../components/Loading";
 
 // Local Component
 const RedirectLink = ({ name, url }) => {
@@ -21,8 +22,8 @@ const RedirectLink = ({ name, url }) => {
 
 // Exportable Component
 export const Signup = () => {
-  const notificationContext = useContext(NotificationContext);
-  const userStatusContext = useContext(UserStatusContext);
+  const errorContext = useContext(ErrorContext);
+  const userContext = useContext(UserContext);
   const [email, setEmail] = useState("");
   const [errorEmail, setErrorEmail] = useState(" ");
   const [username, setUsername] = useState("");
@@ -32,6 +33,8 @@ export const Signup = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errorConfirmPassword, setErrorConfirmPassword] = useState(" ");
   const [showError, setShowError] = useState(false);
+  const [loading, setLoading] = useState(false);
+
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -42,21 +45,21 @@ export const Signup = () => {
       setShowError(true);
     }
     if (errorEmail || errorUsername || errorPassword || errorConfirmPassword) {
-      notificationContext.setError("Invalid form input(s)");
+      errorContext.setError("Invalid form input(s)");
       return;
     }
 
-    notificationContext.setLoading(true);
+    setLoading(true);
     // Try to login
     fetchRequest(import.meta.env.VITE_API_URL + "/signup", {
       method: "POST",
       body: { email, username, password },
     }).then((data) => {
-      notificationContext.setLoading(false);
+      setLoading(false);
       if (data.status === "error") {
-        notificationContext.setError(data.message);
+        errorContext.setError(data.message);
       } else {
-        userStatusContext.setIsUserLogged(true);
+        userContext.setIsLogged(true);
         navigate("/login");
       }
     });
@@ -64,6 +67,7 @@ export const Signup = () => {
 
   return (
     <main className={styles.main} onSubmit={handleSubmit}>
+      <Loading loading={loading} />
       <h1 className={styles.header}>Signup</h1>
       <form className={styles.form} onSubmit={handleSubmit}>
         <TextInput

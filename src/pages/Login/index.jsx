@@ -7,8 +7,9 @@ import PropTypes from "prop-types";
 import { TextInput } from "../../components/InputFields/TextInput";
 import styles from "./index.module.css";
 import { Button } from "../../components/Button";
-import { NotificationContext, UserStatusContext } from "../../routes/App";
+import { ErrorContext, UserContext } from "../../routes/App";
 import { fetchRequest } from "../../lib/fetchRequest";
+import { Loading } from "../../components/Loading";
 
 // Local Component
 const RedirectLink = ({ name, url }) => {
@@ -21,13 +22,14 @@ const RedirectLink = ({ name, url }) => {
 
 // Exportable Component
 export const Login = () => {
-  const notificationContext = useContext(NotificationContext);
-  const userStatusContext = useContext(UserStatusContext);
+  const errorContext = useContext(ErrorContext);
+  const userContext = useContext(UserContext);
   const [username, setUsername] = useState("");
   const [errorUsername, setErrorUsername] = useState(" ");
   const [password, setPassword] = useState("");
   const [errorPassword, setErrorPassword] = useState(" ");
   const [showError, setShowError] = useState(false);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -38,7 +40,7 @@ export const Login = () => {
       setShowError(true);
     }
     if (errorUsername || errorPassword) {
-      notificationContext.setError(
+      errorContext.setError(
         errorUsername && errorPassword
           ? "Invalid username and password"
           : errorUsername
@@ -48,17 +50,17 @@ export const Login = () => {
       return;
     }
 
-    notificationContext.setLoading(true);
+    setLoading(true);
     // Try to login
     fetchRequest(import.meta.env.VITE_API_URL + "/login", {
       method: "POST",
       body: { username, password },
     }).then((data) => {
-      notificationContext.setLoading(false);
+      setLoading(false);
       if (data.status === "error") {
-        notificationContext.setError(data.message);
+        errorContext.setError(data.message);
       } else {
-        userStatusContext.setIsUserLogged(true);
+        userContext.setIsLogged(true);
         navigate("/app");
       }
     });
@@ -66,6 +68,7 @@ export const Login = () => {
 
   return (
     <main className={styles.main} onSubmit={handleSubmit}>
+      <Loading loading={loading} />
       <h1 className={styles.header}>Login</h1>
       <form className={styles.form} onSubmit={handleSubmit}>
         <TextInput

@@ -9,6 +9,7 @@ import { Header } from "../../components/Header";
 import { IoPersonAddSharp } from "react-icons/io5";
 import { fetchRequest } from "../../lib/fetchRequest";
 import { Button } from "../../components/Button";
+import { Loading } from "../../components/Loading";
 
 export const Search = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -27,7 +28,7 @@ export const Search = () => {
         method: "POST",
       }).then((data) => {
         if (data.status === "error") {
-          notificationContext.setError(data.message);
+          errorContext.setError(data.message);
         } else {
           navigate("/app");
         }
@@ -36,26 +37,29 @@ export const Search = () => {
   };
 
   return (
-    <section className={styles.mainSection}>
-      <Header title={`Search Results for: ${searchTerm}`} />
-      <ul className={styles.resultsDiv}>
-        {searchResults &&
-          searchResults.map((user) => (
-            <li key={user.username} className={styles.result}>
-              <span>{user.username}</span>
-              <Button
-                onClick={() => handleClick(user)}
-                padding="var(--padding-xs) var(--padding-lg)"
-              >
-                {user.friend ? (
-                  <BiSolidMessageRoundedDetail size="1.3rem" />
-                ) : (
-                  <IoPersonAddSharp size="1.3rem" />
-                )}
-              </Button>
-            </li>
-          ))}
-      </ul>
-    </section>
+    <>
+      <Loading loading={loading} />
+      <section className={styles.mainSection}>
+        <Header title={`Search Results for: ${searchTerm}`} />
+        <ul className={styles.resultsDiv}>
+          {searchResults &&
+            searchResults.map((user) => (
+              <li key={user.username} className={styles.result}>
+                <span>{user.username}</span>
+                <Button
+                  onClick={() => handleClick(user)}
+                  padding="var(--padding-xs) var(--padding-lg)"
+                >
+                  {user.friend ? (
+                    <BiSolidMessageRoundedDetail size="1.3rem" />
+                  ) : (
+                    <IoPersonAddSharp size="1.3rem" />
+                  )}
+                </Button>
+              </li>
+            ))}
+        </ul>
+      </section>
+    </>
   );
 };
