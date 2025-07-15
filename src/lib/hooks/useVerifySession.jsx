@@ -1,19 +1,26 @@
 // 3rd Party Modules
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 
 // Local Modules
-import { useFetchRequest } from "./useFetchRequest";
+import { fetchRequest } from "../fetchRequest";
 
-export const useVerifySession = (setIsUserLogged) => {
+export const useVerifySession = (setIsLogged) => {
   const navigate = useNavigate();
-  const { data, error, loading } = useFetchRequest(
-    import.meta.env.VITE_API_URL + "/verify-session",
-  );
+  const {
+    isPending: loading,
+    data,
+    error,
+  } = useQuery({
+    queryKey: ["session"],
+    queryFn: () =>
+      fetchRequest(import.meta.env.VITE_API_URL + "/verify-session"),
+  });
 
   useEffect(() => {
     if (data?.status === "success") {
-      setIsUserLogged(true);
+      setIsLogged(true);
       navigate("/app");
     } else {
       navigate("/login");

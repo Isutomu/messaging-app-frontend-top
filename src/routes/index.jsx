@@ -39,5 +39,5 @@ export const routes = new createBrowserRouter(
       ],
     },
   ],
-  { basename: "/messaging-app-frontend-top/" },
+  // { basename: "/messaging-app-frontend-top/" },
 );

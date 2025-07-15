@@ -1,11 +1,11 @@
 // 3rd Party Modules
 import { useNavigate, useParams } from "react-router-dom";
 import { IoSend } from "react-icons/io5";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 
 // Local Modules
 import styles from "./index.module.css";
-import { useFetchRequest } from "../../lib/hooks/useFetchRequest";
 import { fetchRequest } from "../../lib/fetchRequest";
 import { ErrorContext } from "../../routes/App";
 import { Header } from "../../components/Header";
@@ -40,9 +40,17 @@ export const Chat = () => {
   const navigate = useNavigate();
   const params = useParams();
   const friendUsername = params.username;
-  const { data, error, loading } = useFetchRequest(
-    import.meta.env.VITE_API_URL + `/messages/${friendUsername}`,
-  );
+  const {
+    isPending: loading,
+    data,
+    error,
+  } = useQuery({
+    queryKey: ["chat", friendUsername],
+    queryFn: () =>
+      fetchRequest(
+        import.meta.env.VITE_API_URL + `/messages/${friendUsername}`,
+      ),
+  });
 
   const messages = data?.data.messages;
   const handleSubmit = (e) => {

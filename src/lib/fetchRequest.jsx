@@ -15,18 +15,15 @@
  * (as determined in 'options') it throws an error.
  */
 export const fetchRequest = async (apiUrl, options = {}) => {
-  options = {
+  const fetchOptions = {
     method: "GET",
-    status: 200,
+    body: JSON.stringify(options.body),
     ...options,
+    mode: "cors",
+    credentials: "include",
+    status: 200,
   };
 
-  const fetchOptions = {
-    mode: "cors",
-    method: options.method,
-    body: JSON.stringify(options.body),
-    credentials: "include",
-  };
   if (options.body) {
     fetchOptions["headers"] = {
       "Content-type": "application/json; charset=UTF-8",
