@@ -19,6 +19,8 @@ export const App = () => {
   const outlet = useOutlet();
   const sessionResponse = useVerifySession(setIsLogged);
 
+  const simplifiedLocation = location.pathname.split("/")[1];
+
   return (
     <>
       <Error error={error} />
@@ -33,7 +35,7 @@ export const App = () => {
       >
         <UserContext.Provider value={{ isLogged, setIsLogged }}>
           <AnimatePresence mode="wait">
-            {outlet && React.cloneElement(outlet, { key: location.pathname })}
+            {outlet && React.cloneElement(outlet, { key: simplifiedLocation })}
           </AnimatePresence>
         </UserContext.Provider>
       </ErrorContext.Provider>
