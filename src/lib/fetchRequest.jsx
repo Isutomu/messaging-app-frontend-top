@@ -17,8 +17,8 @@
 export const fetchRequest = async (apiUrl, options = {}) => {
   const fetchOptions = {
     method: "GET",
-    body: JSON.stringify(options.body),
     ...options,
+    body: JSON.stringify(options.body),
     mode: "cors",
     credentials: "include",
     status: 200,
