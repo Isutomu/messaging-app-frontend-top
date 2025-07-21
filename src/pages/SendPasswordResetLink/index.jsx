@@ -4,12 +4,12 @@ import { Link, useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 
 // Local Modules
-import { TextInput } from "../../components/InputFields/TextInput";
 import styles from "./index.module.css";
 import { Button } from "../../components/Button";
 import { ErrorContext } from "../../routes/App";
 import { fetchRequest } from "../../lib/fetchRequest";
 import { Loading } from "../../components/Loading";
+import { EmailInput } from "../../containers/InputFields/EmailInput";
 
 // Local Component
 const RedirectLink = ({ name, url }) => {
@@ -61,23 +61,12 @@ export const SendPasswordResetLink = () => {
       <Loading loading={loading} />
       <h1 className={styles.header}>Reset Password</h1>
       <form className={styles.form} onSubmit={handleSubmit}>
-        <TextInput
-          label="email"
+        <EmailInput
           value={email}
           setValue={setEmail}
-          minLength={5}
-          maxLength={45}
-          regex={
-            new RegExp(
-              /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/,
-            )
-          }
-          regexError="Must be a valid email"
           error={errorEmail}
           setError={setErrorEmail}
-          placeholder="email"
           showError={showError}
-          size="clamp(15rem, 40vw, 30rem)"
         />
         <div className={styles.linkDiv}>
           <RedirectLink name="Go back to login" url="/login" />

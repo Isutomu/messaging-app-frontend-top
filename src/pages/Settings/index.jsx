@@ -7,9 +7,11 @@ import { useNavigate } from "react-router-dom";
 import styles from "./index.module.css";
 import { Header } from "../../components/Header";
 import { Button } from "../../components/Button";
-import { TextInput } from "../../components/InputFields/TextInput";
 import { ErrorContext } from "../../routes/App";
 import { fetchRequest } from "../../lib/fetchRequest";
+import { UsernameInput } from "../../containers/InputFields/UsernameInput";
+import { PasswordInput } from "../../containers/InputFields/PasswordInput";
+import { EmailInput } from "../../containers/InputFields/EmailInput";
 
 const ChangeForm = ({ title, actionName, children, field, value, error }) => {
   const errorContext = useContext(ErrorContext);
@@ -73,22 +75,11 @@ export const Settings = () => {
           value={email}
           error={errorEmail}
         >
-          <TextInput
-            label="email"
+          <EmailInput
             value={email}
             setValue={setEmail}
-            minLength={5}
-            maxLength={45}
-            regex={
-              new RegExp(
-                /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/,
-              )
-            }
-            regexError="Must be a valid email"
             error={errorEmail}
             setError={setErrorEmail}
-            placeholder="email"
-            size="clamp(15rem, 40vw, 30rem)"
           />
         </ChangeForm>
 
@@ -99,18 +90,11 @@ export const Settings = () => {
           value={username}
           error={errorUsername}
         >
-          <TextInput
-            label="username"
+          <UsernameInput
             value={username}
             setValue={setUsername}
-            minLength={3}
-            maxLength={20}
-            regex={new RegExp(/^[a-zA-Z0-9]*$/)}
-            regexError="Must be letters or numbers"
             error={errorUsername}
             setError={setErrorUsername}
-            placeholder="username"
-            size="clamp(15rem, 40vw, 30rem)"
           />
         </ChangeForm>
 
@@ -122,8 +106,7 @@ export const Settings = () => {
           error={errorPassword || errorConfirmPassword}
         >
           <div>
-            <TextInput
-              label="password"
+            <PasswordInput
               value={password}
               setValue={(value) => {
                 setPassword(value);
@@ -133,21 +116,17 @@ export const Settings = () => {
                   setErrorConfirmPassword("");
                 }
               }}
-              minLength={6}
-              maxLength={20}
               error={errorPassword}
               setError={setErrorPassword}
-              placeholder="password"
-              size="clamp(15rem, 40vw, 30rem)"
+              showError={showError}
             />
-            <TextInput
-              label="confirmPassword"
+            <PasswordInput
               value={confirmPassword}
               setValue={setConfirmPassword}
               error={errorConfirmPassword}
               setError={setErrorConfirmPassword}
-              placeholder="confirm password"
-              size="clamp(15rem, 40vw, 30rem)"
+              showError={showError}
+              label="confirmPassword"
               equals={password}
             />
           </div>

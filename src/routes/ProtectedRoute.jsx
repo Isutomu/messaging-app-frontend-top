@@ -12,8 +12,6 @@ export const ProtectedRoute = () => {
       fetchRequest(import.meta.env.VITE_API_URL + "/verify-session"),
   });
 
-  console.log("protected");
-
   if (data?.status === "success") {
     return <Outlet />;
   }

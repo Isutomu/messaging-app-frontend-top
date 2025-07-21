@@ -4,12 +4,12 @@ import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import PropTypes from "prop-types";
 
 // Local Modules
-import { TextInput } from "../../components/InputFields/TextInput";
 import styles from "./index.module.css";
 import { Button } from "../../components/Button";
 import { ErrorContext } from "../../routes/App";
 import { fetchRequest } from "../../lib/fetchRequest";
 import { Loading } from "../../components/Loading";
+import { PasswordInput } from "../../containers/InputFields/PasswordInput";
 
 // Local Component
 const RedirectLink = ({ name, url }) => {
@@ -69,8 +69,7 @@ export const ResetPassword = () => {
       <Loading loading={loading} />
       <h1 className={styles.header}>Reset Password</h1>
       <form className={styles.form} onSubmit={handleSubmit}>
-        <TextInput
-          label="password"
+        <PasswordInput
           value={password}
           setValue={(value) => {
             setPassword(value);
@@ -80,23 +79,17 @@ export const ResetPassword = () => {
               setErrorConfirmPassword("");
             }
           }}
-          minLength={6}
-          maxLength={20}
           error={errorPassword}
           setError={setErrorPassword}
-          placeholder="password"
           showError={showError}
-          size="clamp(15rem, 40vw, 30rem)"
         />
-        <TextInput
-          label="confirmPassword"
+        <PasswordInput
           value={confirmPassword}
           setValue={setConfirmPassword}
           error={errorConfirmPassword}
           setError={setErrorConfirmPassword}
-          placeholder="confirm password"
           showError={showError}
-          size="clamp(15rem, 40vw, 30rem)"
+          label="confirmPassword"
           equals={password}
         />
         <div className={styles.linkDiv}>
