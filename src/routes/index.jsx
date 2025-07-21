@@ -12,6 +12,8 @@ import { ResetPassword } from "../pages/ResetPassword";
 import { Chat } from "../pages/Chat";
 import { Settings } from "../pages/Settings";
 import { Search } from "../pages/Search";
+import { ProtectedRoute } from "./ProtectedRoute";
+import { UnprotectedRoute } from "./UnprotectedRoute";
 
 export const routes = new createBrowserRouter(
   [
@@ -20,20 +22,30 @@ export const routes = new createBrowserRouter(
       element: <App />,
       errorElement: <PageNotFound />,
       children: [
-        { path: "/login", element: <Login /> },
-        { path: "/signup", element: <Signup /> },
         {
-          path: "/send-reset-password-link",
-          element: <SendPasswordResetLink />,
-        },
-        { path: "/reset-password", element: <ResetPassword /> },
-        {
-          path: "/app",
-          element: <Homepage />,
+          element: <UnprotectedRoute />,
           children: [
-            { path: "/app/chat/:username", element: <Chat /> },
-            { path: "/app/settings", element: <Settings /> },
-            { path: "/app/search", element: <Search /> },
+            { path: "/login", element: <Login /> },
+            { path: "/signup", element: <Signup /> },
+            {
+              path: "/send-reset-password-link",
+              element: <SendPasswordResetLink />,
+            },
+            { path: "/reset-password", element: <ResetPassword /> },
+          ],
+        },
+        {
+          element: <ProtectedRoute />,
+          children: [
+            {
+              path: "/app",
+              element: <Homepage />,
+              children: [
+                { path: "/app/chat/:username", element: <Chat /> },
+                { path: "/app/settings", element: <Settings /> },
+                { path: "/app/search", element: <Search /> },
+              ],
+            },
           ],
         },
       ],

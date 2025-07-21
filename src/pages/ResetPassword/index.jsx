@@ -7,7 +7,7 @@ import PropTypes from "prop-types";
 import { TextInput } from "../../components/InputFields/TextInput";
 import styles from "./index.module.css";
 import { Button } from "../../components/Button";
-import { ErrorContext, UserContext } from "../../routes/App";
+import { ErrorContext } from "../../routes/App";
 import { fetchRequest } from "../../lib/fetchRequest";
 import { Loading } from "../../components/Loading";
 
@@ -23,7 +23,6 @@ const RedirectLink = ({ name, url }) => {
 // Exportable Component
 export const ResetPassword = () => {
   const errorContext = useContext(ErrorContext);
-  const userContext = useContext(UserContext);
   const [password, setPassword] = useState("");
   const [errorPassword, setErrorPassword] = useState(" ");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -60,7 +59,6 @@ export const ResetPassword = () => {
       if (data.status === "error") {
         errorContext.setError(data.message);
       } else {
-        userContext.setIsLogged(true);
         navigate("/login");
       }
     });
