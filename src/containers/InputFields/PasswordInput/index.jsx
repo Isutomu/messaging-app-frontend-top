@@ -24,6 +24,7 @@ export const PasswordInput = ({
       showError={showError}
       size="clamp(15rem, 40vw, 30rem)"
       equals={equals}
+      withOcclusion={true}
     />
   );
 };

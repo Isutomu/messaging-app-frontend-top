@@ -51,5 +51,5 @@ export const routes = new createBrowserRouter(
       ],
     },
   ],
-  { basename: import.meta.env.VITE_APP_BASE_PATH },
+  { basename: "/messaging-app-frontend-top" },
 );

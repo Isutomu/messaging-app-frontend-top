@@ -118,14 +118,12 @@ export const Settings = () => {
               }}
               error={errorPassword}
               setError={setErrorPassword}
-              showError={showError}
             />
             <PasswordInput
               value={confirmPassword}
               setValue={setConfirmPassword}
               error={errorConfirmPassword}
               setError={setErrorConfirmPassword}
-              showError={showError}
               label="confirmPassword"
               equals={password}
             />

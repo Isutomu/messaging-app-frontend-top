@@ -7,6 +7,12 @@
   font-size: var(--text-2xl);
 }
 
+.inputWrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
 .input {
   border: 1px solid var(--faded);
   border-radius: var(--border-radius-sm);
@@ -17,8 +23,19 @@
   color: var(--faded);
 }
 
+.inputWithOclusion {
+  padding-left: calc(1.5rem + 2 * var(--padding-xs));
+}
+
 .input:active {
   border-color: var(--color);
+}
+
+.eye {
+  position: absolute;
+  bottom: 18%;
+  left: var(--spacing-xs);
+  color: var(--faded);
 }
 
 .error {
