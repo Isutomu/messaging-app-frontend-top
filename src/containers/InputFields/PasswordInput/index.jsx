@@ -9,7 +9,7 @@ export const PasswordInput = ({
   setError,
   showError,
   label = "password",
-  equals = value,
+  equals = undefined,
 }) => {
   return (
     <TextInput
