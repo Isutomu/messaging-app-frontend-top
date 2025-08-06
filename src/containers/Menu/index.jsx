@@ -15,6 +15,7 @@ import styles from "./index.module.css";
 import { Button } from "../../components/Button";
 import { ErrorContext } from "../../routes/App";
 import { fetchRequest } from "../../lib/fetchRequest";
+import { socket } from "../../lib/socket";
 
 const Search = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -60,21 +61,24 @@ const Search = () => {
   );
 };
 
-const Friends = ({ friends }) => {
+const Chats = ({ chats }) => {
   const navigate = useNavigate();
 
   return (
     <div>
       <h2>Friends</h2>
       <ul className={styles.friendsDiv}>
-        {friends &&
-          friends.map((friend) => (
+        {chats &&
+          chats.map((chat) => (
             <li
-              key={friend.username}
-              className={styles.friend}
-              onClick={() => navigate(`/app/chat/${friend.username}`)}
+              key={chat.id}
+              className={styles.chat}
+              onClick={() => {
+                socket.emit("join room", chat.id);
+                navigate(`/app/chat/${chat.id}`);
+              }}
             >
-              <Button name={friend.username}>
+              <Button name={chat.name}>
                 <IoMdPerson size="1.2rem" />
               </Button>
             </li>
@@ -119,12 +123,12 @@ const SettingsButtons = () => {
   );
 };
 
-export const Menu = ({ friends = [] }) => {
+export const Menu = ({ chats = [] }) => {
   return (
     <section className={styles.section}>
       <div className={styles.searchFriendsDiv}>
         <Search />
-        <Friends friends={friends} />
+        <Chats chats={chats} />
       </div>
       <SettingsButtons />
     </section>
@@ -139,10 +143,12 @@ Menu.propTypes = {
   ).isRequired,
 };
 
-Friends.propTypes = {
+Chats.propTypes = {
   frieds: PropTypes.arrayOf(
     PropTypes.shape({
-      username: PropTypes.string,
+      name: PropTypes.string,
+      id: PropTypes.string,
+      group: PropTypes.bool,
     }),
   ).isRequired,
 };

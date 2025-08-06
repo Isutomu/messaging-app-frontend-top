@@ -1,8 +1,9 @@
 // 3rd Party Modules
 import { useNavigate, useParams } from "react-router-dom";
 import { IoSend } from "react-icons/io5";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { socket } from "../../lib/socket";
 
 // Local Modules
 import styles from "./index.module.css";
@@ -11,7 +12,9 @@ import { ErrorContext } from "../../routes/App";
 import { Header } from "../../components/Header";
 import { Button } from "../../components/Button";
 import { Loading } from "../../components/Loading";
+import { UserContext } from "../../routes/ProtectedRoute";
 
+// Container exclusive components
 const TriangleLeft = () => (
   <svg
     className={styles.svgLeft}
@@ -36,23 +39,35 @@ const TriangleRight = () => (
 export const Chat = () => {
   const [inputMessage, setInputMessage] = useState("");
   const [errorDisplayed, setErrorDisplayed] = useState(false);
+  const [messagesDuringChat, setMessagesDuringChat] = useState([]);
   const errorContext = useContext(ErrorContext);
   const navigate = useNavigate();
   const params = useParams();
-  const friendUsername = params.username;
+  const chatId = params.chatId;
+  const userContext = useContext(UserContext);
   const {
     isPending: loading,
     data,
     error,
   } = useQuery({
-    queryKey: ["chat", friendUsername],
+    queryKey: ["chat", chatId],
     queryFn: () =>
-      fetchRequest(
-        import.meta.env.VITE_API_URL + `/messages/${friendUsername}`,
-      ),
+      fetchRequest(import.meta.env.VITE_API_URL + `/messages/${chatId}`),
   });
+  useEffect(() => {
+    socket.on("new message", (data) => {
+      if (chatId !== data.chatId) {
+        return;
+      }
+      setMessagesDuringChat((prev) => {
+        if (prev.find((message) => message.id === data.message.id)) {
+          return prev;
+        }
+        return prev.concat([data.message]);
+      });
+    });
+  }, [socket]);
 
-  const messages = data?.data.messages;
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -61,7 +76,7 @@ export const Chat = () => {
       return;
     }
 
-    fetchRequest(import.meta.env.VITE_API_URL + `/messages/${friendUsername}`, {
+    fetchRequest(import.meta.env.VITE_API_URL + `/messages/${chatId}`, {
       method: "POST",
       body: { message: inputMessage },
     }).then((data) => {
@@ -69,7 +84,6 @@ export const Chat = () => {
         errorContext.setError(data.message);
       } else {
         setInputMessage("");
-        navigate(`/app`);
       }
     });
   };
@@ -87,16 +101,19 @@ export const Chat = () => {
     setInputMessage(value);
   };
 
+  const initialMessages = data?.data.chat.messages;
+  const messages =
+    initialMessages && initialMessages.concat(messagesDuringChat);
   return (
     <>
       <Loading loading={loading} />
       <section className={styles.mainSection}>
-        <Header title={friendUsername} />
+        <Header title={data?.data.chat.name} />
 
         <section className={styles.messagesSection}>
           {messages &&
             messages.map((message) => {
-              const received = message.sender === friendUsername;
+              const received = message.sender !== userContext.username;
 
               return (
                 <span

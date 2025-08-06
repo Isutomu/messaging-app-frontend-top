@@ -41,7 +41,7 @@ export const routes = new createBrowserRouter(
               path: "/app",
               element: <Homepage />,
               children: [
-                { path: "/app/chat/:username", element: <Chat /> },
+                { path: "/app/chat/:chatId", element: <Chat /> },
                 { path: "/app/settings", element: <Settings /> },
                 { path: "/app/search", element: <Search /> },
               ],

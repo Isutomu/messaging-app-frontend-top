@@ -42,7 +42,7 @@
   gap: var(--spacing-sm);
 }
 
-.friend {
+.chat {
   display: grid;
   grid-template-columns: 1fr;
 }
