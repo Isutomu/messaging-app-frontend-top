@@ -39,9 +39,8 @@ const TriangleRight = () => (
 export const Chat = () => {
   const [inputMessage, setInputMessage] = useState("");
   const [errorDisplayed, setErrorDisplayed] = useState(false);
-  const [messagesDuringChat, setMessagesDuringChat] = useState([]);
+  const [messages, setMessages] = useState([]);
   const errorContext = useContext(ErrorContext);
-  const navigate = useNavigate();
   const params = useParams();
   const chatId = params.chatId;
   const userContext = useContext(UserContext);
@@ -54,16 +53,27 @@ export const Chat = () => {
     queryFn: () =>
       fetchRequest(import.meta.env.VITE_API_URL + `/messages/${chatId}`),
   });
+
   useEffect(() => {
-    socket.on("new message", (data) => {
-      if (chatId !== data.chatId) {
-        return;
-      }
-      setMessagesDuringChat((prev) => {
-        if (prev.find((message) => message.id === data.message.id)) {
-          return prev;
+    socket.emit("join room", { chatId });
+    return () => {
+      socket.emit("leave room", { chatId });
+    };
+  }, [chatId]);
+
+  useEffect(() => {
+    if (data?.data.chat.messages) {
+      setMessages(data?.data.chat.messages);
+    }
+  }, [data]);
+
+  useEffect(() => {
+    socket.on("receive message", (data) => {
+      setMessages((prev) => {
+        if (!prev.find((message) => message.id === data.message.id)) {
+          return [...prev, data.message];
         }
-        return prev.concat([data.message]);
+        return prev;
       });
     });
   }, [socket]);
@@ -83,6 +93,7 @@ export const Chat = () => {
       if (data.status === "error") {
         errorContext.setError(data.message);
       } else {
+        socket.emit("send message", { chatId, message: data.message });
         setInputMessage("");
       }
     });
@@ -101,9 +112,6 @@ export const Chat = () => {
     setInputMessage(value);
   };
 
-  const initialMessages = data?.data.chat.messages;
-  const messages =
-    initialMessages && initialMessages.concat(messagesDuringChat);
   return (
     <>
       <Loading loading={loading} />

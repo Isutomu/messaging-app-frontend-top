@@ -63,7 +63,15 @@ So, now to the topics:
 > [!IMPORTANT]
 > Modifiers ("not priority" and the like) don't imply importance. Most of the time they simply mean that I thought they were too difficult to tackle for now.
 
--
+- Group creation
+- Group chat
+- File sending
+- Friendship by invite
+- Profile
+- Notifications
+  - Online
+  - New message
+  - Display new message (just like any other chat app)
 
 ## Features in consideration
 

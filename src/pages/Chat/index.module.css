@@ -9,6 +9,7 @@
 
 .messagesSection {
   flex: 1;
+  flex-basis: 0;
   justify-content: flex-end;
 
   display: flex;
@@ -16,6 +17,8 @@
   gap: var(--spacing-base);
 
   padding: var(--padding-2xl) var(--padding-lg);
+  overflow-y: hidden;
+  overflow-wrap: anywhere;
 }
 
 .message {
@@ -26,6 +29,7 @@
 
   background-color: var(--faded);
   color: var(--background);
+  word-break: break-word;
 }
 
 .svgLeft {

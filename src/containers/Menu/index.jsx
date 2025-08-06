@@ -15,7 +15,6 @@ import styles from "./index.module.css";
 import { Button } from "../../components/Button";
 import { ErrorContext } from "../../routes/App";
 import { fetchRequest } from "../../lib/fetchRequest";
-import { socket } from "../../lib/socket";
 
 const Search = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -73,10 +72,7 @@ const Chats = ({ chats }) => {
             <li
               key={chat.id}
               className={styles.chat}
-              onClick={() => {
-                socket.emit("join room", chat.id);
-                navigate(`/app/chat/${chat.id}`);
-              }}
+              onClick={() => navigate(`/app/chat/${chat.id}`)}
             >
               <Button name={chat.name}>
                 <IoMdPerson size="1.2rem" />
